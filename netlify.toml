@@ -1,8 +1,10 @@
 [build]
+  publish = "docs"
   functions = "functions"
 
 [[redirects]]
   from = "/"
   to = "/.netlify/functions/handler"
   status = 200
+  force = true
 
