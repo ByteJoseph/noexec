@@ -1,0 +1,55 @@
+#!/bin/bash
+
+version=1.0
+exe="$1"
+if [ -z "$exe" ]; then
+  cat <<EOF
+╭────────────────────────────────────────────╮
+│ Usage  : noexec <executable> <args...>     │
+│                                            │
+│ Example:                                   │
+│   noexec ./a.out arg1 arg2 etc             │
+│                                            │
+│ Options:                                   │
+│   -v, --version  Display the version and   │
+│                  exit.                     │
+╰────────────────────────────────────────────╯
+EOF
+  exit 0
+fi
+if [ "--credits" = "$exe" ]; then
+  cat <<EOF
+╭───────────────────────────────────────────────────╮
+│                 noexec v$version                       │
+│ Author     : Joseph Joseph (ByteJoseph)           │
+│ GitHub     : https://github.com/ByteJoseph/noexec │
+│ Email      : bytejoseph23[at]gmail.com            │
+╰───────────────────────────────────────────────────╯
+EOF
+  exit 0
+fi
+if [ "--version" = "$exe" ] || [ "-v" = "$exe" ]; then
+  echo " V $version"
+  exit 0
+fi
+target=$(which bash)
+strip_target=$(dirname "$target")
+
+
+if [ -f "$exe" ]; then
+  cp "$exe" "$strip_target/"
+  chmod +x "$strip_target/$exe"
+  clean_path="${exe//\/.\//\/}"  
+  clean_path="${clean_path#./}"
+  path="${clean_path##*/}"
+  trap 'rm -f "$strip_target/$path"' EXIT
+  "$path" "${@:2}"
+  exit_code=$?
+  rm "$strip_target/$path"
+  exit $exit_code
+else
+  echo "File $exe doesn't exist"
+  exit 1
+fi
+
+
