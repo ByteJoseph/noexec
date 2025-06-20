@@ -1,6 +1,6 @@
 [build]
-  publish = "./"
-  functions = "./functions"
+  publish = "docs"
+  functions = "functions"
 
 [[redirects]]
   from = "/"
