@@ -1,0 +1,9 @@
+[build]
+  publish = "./"
+  functions = "./functions"
+
+[[redirects]]
+  from = "/"
+  to = "/.netlify/functions/handler"
+  status = 200
+
