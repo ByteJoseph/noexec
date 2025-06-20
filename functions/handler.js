@@ -9,7 +9,7 @@ exports.handler = async function(event, context) {
   const contentType = isCurl ? "text/x-sh" : "text/html";
 
   try {
-    const fileData = fs.readFileSync(path.resolve(__dirname, "../", filePath), "utf8");
+    const fileData = fs.readFileSync(path.resolve(__dirname,"../docs", filePath), "utf8");
     return {
       statusCode: 200,
       headers: {
