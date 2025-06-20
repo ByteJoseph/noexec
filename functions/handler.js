@@ -3,6 +3,7 @@ const path = require("path");
 
 exports.handler = async function (event, context) {
   const userAgent = event.headers["user-agent"] || "";
+  console.log(userAgent);
   const isCurl = /curl|wget|httpie/i.test(userAgent);
 
   const fileName = isCurl ? "installer.sh" : "index.html";
