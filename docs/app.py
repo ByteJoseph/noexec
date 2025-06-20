@@ -11,5 +11,9 @@ def serve_file():
     else:
         return send_from_directory('.', 'index.html')
 
+@app.route('/install')
+def install():
+   return send_from_directory('.', 'installer.sh', as_attachment=False)
+
 if __name__ == '__main__':
     app.run()
