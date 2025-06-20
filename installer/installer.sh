@@ -1,4 +1,4 @@
-curl -sSL https://raw.githubusercontent.com/ByteJoseph/noexec/refs/heads/main/src/noexec -o noexec
+curl -sSL "https://raw.githubusercontent.com/ByteJoseph/noexec/refs/heads/main/src/noexec" -o noexec
 file="noexec"
 dir_name=$(dirname "$(which bash)")
 if [ -f "$file" ]; then
