@@ -55,13 +55,18 @@
           <h2>Quick Installation</h2>
           <p>Install noexec with a single command:</p>
           <div class="code-block">
-            <pre id="install-command"><code>curl -sSL https://noexec.vercel.app/install.sh | bash</code></pre>
+            <pre
+              id="install-command"
+            ><code>curl -sSL https://noexec.vercel.app/install.sh | bash</code></pre>
             <button class="copy-btn" data-clipboard-target="#install-command">
               Copy
             </button>
           </div>
           <center>
-            <ex id="copy-command-center" class="github-link" data-clipboard-target="#install-command"
+            <ex
+              id="copy-command-center"
+              class="github-link"
+              data-clipboard-target="#install-command"
               >copy</ex
             >
           </center>
@@ -86,7 +91,7 @@
           <h2>Usage</h2>
           <p>The syntax for noexec is simple:</p>
           <div class="code-block">
-            <pre><code>noexec &lt;executable&gt; &lt;args...&gt;</code></pre>
+            <pre><code>noexec &lt;executable&gt; &lt;args...</code></pre>
           </div>
           <p>
             noexec takes an executable file and any arguments you want to pass
@@ -102,19 +107,19 @@
           <h3>Basic Usage</h3>
           <p>Execute a compiled C program:</p>
           <div class="code-block">
-            <pre><code>noexec ./a.out arg1 arg2 arg3</code></pre>
+            <pre><code>noexec ./a.out arg1 arg2..</code></pre>
           </div>
 
           <h3>Execute from Different Directory</h3>
           <p>Run executables from any location:</p>
           <div class="code-block">
-            <pre><code>noexec /path/to/my/binary --config=settings.json</code></pre>
+            <pre><code>noexec /path/to/my/binary</code></pre>
           </div>
 
           <h3>Complex Command Line</h3>
           <p>Pass complex arguments and options:</p>
           <div class="code-block">
-            <pre><code>noexec ./server --port=8080 --host=localhost --debug</code></pre>
+            <pre><code>noexec ./server --port=8080</code></pre>
           </div>
         </section>
 
@@ -234,7 +239,9 @@
           if (button) {
             button.addEventListener("click", () => {
               const targetId = button.dataset.clipboardTarget;
-              const commandText = document.querySelector(targetId).textContent.trim();
+              const commandText = document
+                .querySelector(targetId)
+                .textContent.trim();
               navigator.clipboard
                 .writeText(commandText)
                 .then(() => {
