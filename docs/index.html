@@ -1,1 +1,296 @@
-<h1>Docs</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>noexec - Docs</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <a href="#" class="logo">noexec</a>
+        <nav>
+          <ul class="nav-links">
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#usage">Usage</a></li>
+            <li><a href="#examples">Examples</a></li>
+            <li><a href="#options">Options</a></li>
+            <li><a href="#how-it-works">How It Works</a></li>
+            <li>
+              <a href="https://github.com/ByteJoseph/noexec" target="_blank"
+                >GitHub</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <div class="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container">
+          <h1>noexec</h1>
+          <p>
+            A CLI tool designed to overcome Android 10+ security restrictions,
+            allowing you to run executables from shared storage within Termux.
+          </p>
+          <a
+            href="https://github.com/ByteJoseph/noexec"
+            class="github-link"
+            target="_blank"
+          >
+            View on GitHub
+          </a>
+        </div>
+      </section>
+
+      <div class="container content-sections">
+        <section id="installation" class="section">
+          <h2>Quick Installation</h2>
+          <p>Install noexec with a single command:</p>
+          <div class="code-block">
+            <pre id="install-command"><code>curl -sSL https://noexec.vercel.app/install.sh | bash</code></pre>
+            <button class="copy-btn" data-clipboard-target="#install-command">
+              Copy
+            </button>
+          </div>
+          <center>
+            <ex id="copy-command-center" class="github-link" data-clipboard-target="#install-command"
+              >copy</ex
+            >
+          </center>
+
+          <p>
+            This will download and install noexec in your Termux environment.
+          </p>
+        </section>
+        <section id="how-it-works" class="section">
+          <h2>The Problem: Android 10+ Executable Restrictions</h2>
+          <p>
+            Starting with Android 10, significant security enhancements were
+            introduced that prevent direct execution of binaries from commonly
+            used storage locations like <code>/sdcard</code> directory. This
+            means that even if you download or compile an executable, you cannot
+            simply run it by typing its path. This restriction is in place to
+            enhance device security and prevent malicious code execution.
+          </p>
+        </section>
+
+        <section id="usage" class="section">
+          <h2>Usage</h2>
+          <p>The syntax for noexec is simple:</p>
+          <div class="code-block">
+            <pre><code>noexec &lt;executable&gt; &lt;args...&gt;</code></pre>
+          </div>
+          <p>
+            noexec takes an executable file and any arguments you want to pass
+            to it. It temporarily copies the executable to your system PATH,
+            runs it with the provided arguments, and then automatically removes
+            it when execution completes.
+          </p>
+        </section>
+
+        <section id="examples" class="section">
+          <h2>Examples</h2>
+
+          <h3>Basic Usage</h3>
+          <p>Execute a compiled C program:</p>
+          <div class="code-block">
+            <pre><code>noexec ./a.out arg1 arg2 arg3</code></pre>
+          </div>
+
+          <h3>Execute from Different Directory</h3>
+          <p>Run executables from any location:</p>
+          <div class="code-block">
+            <pre><code>noexec /path/to/my/binary --config=settings.json</code></pre>
+          </div>
+
+          <h3>Complex Command Line</h3>
+          <p>Pass complex arguments and options:</p>
+          <div class="code-block">
+            <pre><code>noexec ./server --port=8080 --host=localhost --debug</code></pre>
+          </div>
+        </section>
+
+        <section id="options" class="section">
+          <h2>Options</h2>
+
+          <h3>Version Information</h3>
+          <p>Display the current version:</p>
+          <div class="code-block">
+            <pre><code>noexec -v</code></pre>
+          </div>
+          <div class="code-block">
+            <pre><code>noexec --version</code></pre>
+          </div>
+
+          <h3>Help</h3>
+          <p>Display usage information (run without arguments):</p>
+          <div class="code-block">
+            <pre><code>noexec</code></pre>
+          </div>
+
+          <h3>Credits</h3>
+          <p>Show author and project information:</p>
+          <div class="code-block">
+            <pre><code>noexec --credits</code></pre>
+          </div>
+        </section>
+
+        <section class="section">
+          <h2>How It Works: The noexec Solution</h2>
+          <p>
+            <code>noexec</code> provides an elegant workaround for this
+            restriction. It operates by:
+          </p>
+          <ol>
+            <li>
+              <strong>Temporary Relocation:</strong> When you use
+              <code>noexec</code>, it temporarily copies your specified
+              executable to a directory within your system's PATH (e.g.,
+              <code>/data/data/com.termux/files/usr/bin</code> in Termux). This
+              directory is whitelisted by Android for executable permissions.
+            </li>
+            <li>
+              <strong>Execution:</strong> Once copied, <code>noexec</code> makes
+              the temporary file executable and then runs it with all the
+              arguments you provided.
+            </li>
+            <li>
+              <strong>Automatic Cleanup:</strong> Crucially, immediately after
+              the executable finishes running (or if it crashes),
+              <code>noexec</code> automatically deletes the temporary copy from
+              the PATH directory. This ensures no permanent changes are made to
+              your system and keeps your environment clean.
+            </li>
+          </ol>
+          <p>
+            This approach allows you to run any executable as if it were
+            installed system-wide, without permanently modifying your PATH or
+            system directories. The cleanup happens automatically, even if the
+            program exits unexpectedly, ensuring a secure and clean execution
+            environment.
+          </p>
+
+          <h3>Key Features & Benefits</h3>
+          <ul>
+            <li>
+              <strong>Bypasses Android 10+ Restrictions:</strong> Run
+              executables from any storage location.
+            </li>
+            <li>
+              <strong>Zero Dependency:</strong> No complex setup required.
+              Install once and use immediately.
+            </li>
+            <li>
+              <strong>Secure Execution:</strong> Temporarily copies executables
+              and cleans up automatically.
+            </li>
+            <li>
+              <strong>Lightning Fast:</strong> Minimal overhead with automatic
+              cleanup.
+            </li>
+            <li>
+              <strong>Preserves Original File Permissions:</strong> Your
+              original executable remains untouched.
+            </li>
+            <li>
+              <strong>Works with Any Executable Format:</strong> Supports
+              various binary formats.
+            </li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Requirements</h2>
+          <ul>
+            <li>Bash shell</li>
+            <li>Write permissions to system PATH directory</li>
+            <li>Standard Unix utilities (cp, chmod, rm)</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>noexec v1.0 - Created by Joseph Joseph (ByteJoseph)</p>
+        <p>Contact: bytejoseph23@gmail.com</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const copyBtn = document.querySelector(".copy-btn");
+        const copyBtnCenter = document.querySelector("#copy-command-center");
+
+        const setupCopyButton = (button) => {
+          if (button) {
+            button.addEventListener("click", () => {
+              const targetId = button.dataset.clipboardTarget;
+              const commandText = document.querySelector(targetId).textContent.trim();
+              navigator.clipboard
+                .writeText(commandText)
+                .then(() => {
+                  const originalText = button.textContent;
+                  button.textContent = "Copied!";
+                  button.classList.add("copied-feedback");
+                  setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove("copied-feedback");
+                  }, 2000);
+                })
+                .catch((err) => {
+                  console.error("Failed to copy: ", err);
+                });
+            });
+          }
+        };
+
+        setupCopyButton(copyBtn);
+        setupCopyButton(copyBtnCenter);
+
+        const navLinks = document.querySelector(".nav-links");
+        const hamburger = document.querySelector(".hamburger");
+
+        hamburger.addEventListener("click", () => {
+          navLinks.classList.toggle("active");
+          hamburger.classList.toggle("active");
+        });
+
+        document.querySelectorAll("nav a").forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+              window.scrollTo({
+                top:
+                  targetElement.offsetTop -
+                  document.querySelector("header").offsetHeight,
+                behavior: "smooth",
+              });
+              navLinks.classList.remove("active");
+              hamburger.classList.remove("active");
+            }
+          });
+        });
+
+        window.addEventListener("scroll", () => {
+          const header = document.querySelector("header");
+          if (window.scrollY > 50) {
+            header.classList.add("scrolled");
+          } else {
+            header.classList.remove("scrolled");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
