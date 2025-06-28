@@ -13,7 +13,7 @@
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   margin: 0;
   padding: 0;
   background-color: var(--background-color);
@@ -81,7 +81,7 @@ nav ul li a {
 }
 
 nav ul li a::after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 2px;
@@ -118,12 +118,15 @@ nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)),
-    url('../assets/logo.png') no-repeat center center/cover;
+  background: linear-gradient(
+      rgba(255, 255, 255, 0.8),
+      rgba(255, 255, 255, 0.8)
+    ),
+    url("../assets/logo.png") no-repeat center center/cover;
   padding: 160px 0 100px;
   text-align: center;
   color: var(--text-color);
-  margin-top: 68px; /* Adjust for fixed header */
+  margin-top: 1px; /* Adjust for fixed header */
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -205,7 +208,7 @@ nav ul li a:hover {
 }
 
 .section ul li::before {
-  content: '\2022'; /* Bullet point */
+  content: "\2022"; /* Bullet point */
   color: var(--primary-color);
   font-weight: bold;
   display: inline-block;
@@ -214,7 +217,7 @@ nav ul li a:hover {
 }
 
 .section ol li::before {
-  content: counter(list-item) '.';
+  content: counter(list-item) ".";
   color: var(--primary-color);
   font-weight: bold;
   display: inline-block;
@@ -247,7 +250,8 @@ nav ul li a:hover {
 }
 
 .code-block code {
-  font-family: 'Fira Code', 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-family: "Fira Code", "Consolas", "Monaco", "Andale Mono", "Ubuntu Mono",
+    monospace;
   font-size: 0.9rem;
 }
 
