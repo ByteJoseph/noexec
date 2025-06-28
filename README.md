@@ -7,7 +7,7 @@ A CLI tool designed to overcome Android 10+ security restrictions, allowing you 
 Install noexec with a single command:
 
 ```bash
-curl -sSL https://noexec.vercel.app/install.sh | bash
+curl  https://noexec.vercel.app/install.sh | bash
 ```
 
 This will download and install noexec in your Termux environment.
@@ -94,18 +94,18 @@ This approach allows you to run any executable as if it were installed system-wi
 
 ### Key Features & Benefits
 
-*   **Bypasses Android 10+ Restrictions:** Run executables from any storage location.
-*   **Zero Dependency:** No complex setup required. Install once and use immediately.
-*   **Secure Execution:** Temporarily copies executables and cleans up automatically.
-*   **Lightning Fast:** Minimal overhead with automatic cleanup.
-*   **Preserves Original File Permissions:** Your original executable remains untouched.
-*   **Works with Any Executable Format:** Supports various binary formats.
+- **Bypasses Android 10+ Restrictions:** Run executables from any storage location.
+- **Zero Dependency:** No complex setup required. Install once and use immediately.
+- **Secure Execution:** Temporarily copies executables and cleans up automatically.
+- **Lightning Fast:** Minimal overhead with automatic cleanup.
+- **Preserves Original File Permissions:** Your original executable remains untouched.
+- **Works with Any Executable Format:** Supports various binary formats.
 
 ## Requirements
 
-*   Bash shell
-*   Write permissions to system PATH directory
-*   Standard Unix utilities (cp, chmod, rm)
+- Bash shell
+- Write permissions to system PATH directory
+- Standard Unix utilities (cp, chmod, rm)
 
 ## Contact
 
