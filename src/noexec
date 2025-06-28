@@ -37,16 +37,17 @@ strip_target=$(dirname "$target")
 
 
 if [ -f "$exe" ]; then
-  cp "$exe" "$strip_target/"
-  chmod +x "$strip_target/$exe"
-  clean_path="${exe//\/.\//\/}"  
-  clean_path="${clean_path#./}"
-  path="${clean_path##*/}"
-  trap 'rm -f "$strip_target/$path"' EXIT
-  "$path" "${@:2}"
-  exit_code=$?
-  rm "$strip_target/$path"
-  exit $exit_code
+year=$(date +%Y)
+base="$(basename "$exe")"
+temp_exec="$strip_target/${base}${year}"
+
+cp "$exe" "$temp_exec"
+chmod +x "$temp_exec"
+trap 'rm -f "$temp_exec"' EXIT
+"$temp_exec" "${@:2}"
+exit_code=$?
+rm -f "$temp_exec"
+exit $exit_code
 else
   echo "File $exe doesn't exist"
   exit 1
