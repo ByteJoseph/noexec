@@ -44,13 +44,6 @@ Run executables from any location:
 noexec /path/to/my/binary
 ```
 
-### Complex Command Line
-
-Pass complex arguments and options:
-
-```bash
-noexec ./server --port=8080
-```
 
 ## Options
 
