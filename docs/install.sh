@@ -1,6 +1,6 @@
 curl  "https://raw.githubusercontent.com/ByteJoseph/noexec/refs/heads/main/src/noexec" -o noexec
 file="noexec"
-dir_name=$(dirname "$(which bash)")
+dir_name=$(dirname "$(command -v bash)")
 if [ -f "$file" ]; then
   
   cp "$file" "$dir_name/$file"
