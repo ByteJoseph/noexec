@@ -32,7 +32,7 @@ if [ "--version" = "$exe" ] || [ "-v" = "$exe" ]; then
   echo " V $version"
   exit 0
 fi
-target=$(which bash)
+target=$(command -v bash)
 strip_target=$(dirname "$target")
 
 
