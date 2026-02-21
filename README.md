@@ -4,7 +4,7 @@ A CLI tool designed to overcome Android 10+ security restrictions, allowing you 
 
 ## Quick Installation
 
-Install noexec with a single command:
+Install with a single command:
 
 ```bash
 curl  https://noexec.vercel.app/install.sh | bash
