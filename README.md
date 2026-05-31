@@ -61,10 +61,18 @@ noexec --version
 
 ### Help
 
-Display usage information (run without arguments):
+Display usage information (run without arguments or with -h/--help):
 
 ```bash
 noexec
+```
+
+```bash
+noexec -h
+```
+
+```bash
+noexec --help
 ```
 
 ### Credits

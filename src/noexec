@@ -1,9 +1,11 @@
 #!/bin/bash
 
-version=1.0
+version=1.1
 exe="$1"
-if [ -z "$exe" ]; then
-  cat <<EOF
+
+case "$exe" in
+  "" | "-h" | "--help")
+    cat <<EOF
 ╭────────────────────────────────────────────╮
 │ Usage  : noexec <executable> <args...>     │
 │                                            │
@@ -13,12 +15,16 @@ if [ -z "$exe" ]; then
 │ Options:                                   │
 │   -v, --version  Display the version and   │
 │                  exit.                     │
+│   -h, --help     Display this help and     │
+│                  exit.                     │
+│   --credits      Display author and        │
+│                  project information.      │
 ╰────────────────────────────────────────────╯
 EOF
-  exit 0
-fi
-if [ "--credits" = "$exe" ]; then
-  cat <<EOF
+    exit 0
+    ;;
+  "--credits")
+    cat <<EOF
 ╭───────────────────────────────────────────────────╮
 │                 noexec v$version                       │
 │ Author     : Joseph Joseph (ByteJoseph)           │
@@ -26,30 +32,47 @@ if [ "--credits" = "$exe" ]; then
 │ Email      : bytejoseph23[at]gmail.com            │
 ╰───────────────────────────────────────────────────╯
 EOF
-  exit 0
-fi
-if [ "--version" = "$exe" ] || [ "-v" = "$exe" ]; then
-  echo " V $version"
-  exit 0
-fi
+    exit 0
+    ;;
+  "-v" | "--version")
+    echo "noexec version $version"
+    exit 0
+    ;;
+esac
 target=$(command -v bash)
+if [ -z "$target" ]; then
+  echo "Error: Could not determine system PATH from bash location." >&2
+  exit 1
+fi
 strip_target=$(dirname "$target")
 
+if [ ! -w "$strip_target" ]; then
+  echo "Error: No write permission to $strip_target" >&2
+  exit 1
+fi
 
 if [ -f "$exe" ]; then
-year=$(date +%Y)
-base="$(basename "$exe")"
-temp_exec="$strip_target/${base}${year}"
+  base="$(basename "$exe")"
+  temp_exec=$(mktemp -p "$strip_target" "${base}.XXXXXXXX") || {
+    echo "Error: Failed to create temporary file in $strip_target" >&2
+    exit 1
+  }
+  trap 'rm -f "$temp_exec"' EXIT
 
-cp "$exe" "$temp_exec"
-chmod +x "$temp_exec"
-trap 'rm -f "$temp_exec"' EXIT
-"$temp_exec" "${@:2}"
-exit_code=$?
-rm -f "$temp_exec"
-exit $exit_code
+  cp "$exe" "$temp_exec" || {
+    echo "Error: Failed to copy $exe to $temp_exec" >&2
+    exit 1
+  }
+
+  chmod +x "$temp_exec"
+  "$temp_exec" "${@:2}"
+  exit_code=$?
+  exit $exit_code
+elif [ -d "$exe" ]; then
+  echo "Error: '$exe' is a directory, not a file." >&2
+  exit 1
 else
-  echo "File $exe doesn't exist"
+  echo "Error: File '$exe' doesn't exist." >&2
   exit 1
 fi
 
