@@ -1,106 +1,183 @@
 # noexec
 
-A CLI tool designed to overcome Android 10+ security restrictions, allowing you to run executables from shared storage within Termux.
+> Run executables from shared storage in Termux.
 
-## Quick Installation
-
-Install with a single command:
+Have you ever tried to execute a binary from `~/storage/shared` and seen this?
 
 ```bash
-curl  https://noexec.vercel.app/install.sh | bash
+~/storage/shared $ ./a.out
+bash: ./a.out: Permission denied
 ```
 
-This will download and install noexec in your Termux environment.
+Your binary isn't broken.
 
-## The Problem: Android 10+ Executable Restrictions
+Modern Android mounts shared storage with the **`noexec`** flag, which prevents binaries from being executed directly from locations like `~/storage/shared`.
 
-Starting with Android 10, significant security enhancements were introduced that prevent direct execution of binaries from commonly used storage locations like `/sdcard` directory. This means that even if you download or compile an executable, you cannot simply run it by typing its path. This restriction is in place to enhance device security and prevent malicious code execution.
+**noexec** is a lightweight CLI that works around this restriction by temporarily copying the executable into Termux's executable directory, running it with all of its arguments, and automatically removing the temporary copy when it finishes.
+
+---
+
+## Installation
+
+```bash
+curl -fsSL https://noexec.vercel.app/install.sh | bash
+```
+
+After installation, the `noexec` command will be available in your Termux session.
+
+---
 
 ## Usage
 
-The syntax for noexec is simple:
-
 ```bash
-noexec <executable> <args...>
+noexec <executable> [arguments...]
 ```
 
-noexec takes an executable file and any arguments you want to pass to it. It temporarily copies the executable to your system PATH, runs it with the provided arguments, and then automatically removes it when execution completes.
+### Examples
 
-## Examples
-
-### Basic Usage
-
-Execute a compiled C program:
+Run a compiled C program:
 
 ```bash
-noexec ./a.out arg1 arg2..
+noexec ./a.out
 ```
 
-### Execute from Different Directory
-
-Run executables from any location:
+Pass command-line arguments:
 
 ```bash
-noexec /path/to/my/binary
+noexec ./a.out hello world
 ```
 
-
-## Options
-
-### Version Information
-
-Display the current version:
+Run a binary from another location:
 
 ```bash
-noexec -v
+noexec ~/storage/shared/my_program
 ```
+
+---
+
+## Why is this needed?
+
+Android does not allow executables to run directly from shared storage.
+
+For example:
 
 ```bash
-noexec --version
+~/storage/shared $ ./a.out
+bash: ./a.out: Permission denied
 ```
 
-### Help
+Although the file exists and may already have executable permissions, Android blocks execution because the filesystem is mounted with the **`noexec`** option.
 
-Display usage information (run without arguments):
+Instead of asking you to manually move binaries into Termux's executable directories every time, **noexec** automates the process.
+
+---
+
+## How it works
+
+When you run:
+
+```bash
+noexec ./a.out arg1 arg2
+```
+
+`noexec` performs the following steps:
+
+1. Copies the executable into Termux's executable directory.
+2. Preserves executable permissions.
+3. Executes it with every argument you supplied.
+4. Waits for the program to exit.
+5. Deletes the temporary copy automatically.
+
+Your original executable is never modified.
+
+---
+
+## Features
+
+* 🚀 Run executables directly from shared storage
+* 🧹 Automatic cleanup after execution
+* ⚡ Lightweight and fast
+* 📦 Zero dependencies beyond standard Unix utilities
+* 🔒 Original executable remains untouched
+* 💬 Supports command-line arguments
+* 🛠 Works with binaries produced by C, C++, Rust, Go, Zig, and other compiled languages
+
+---
+
+## Command Reference
+
+Display help:
 
 ```bash
 noexec
 ```
 
-### Credits
+Display version:
 
-Show author and project information:
+```bash
+noexec --version
+```
+
+or
+
+```bash
+noexec -v
+```
+
+Show project information:
 
 ```bash
 noexec --credits
 ```
 
-## How It Works: The noexec Solution
-
-`noexec` provides an elegant workaround for this restriction. It operates by:
-
-1.  **Temporary Relocation:** When you use `noexec`, it temporarily copies your specified executable to a directory within your system's PATH (e.g., `/data/data/com.termux/files/usr/bin` in Termux). This directory is whitelisted by Android for executable permissions.
-2.  **Execution:** Once copied, `noexec` makes the temporary file executable and then runs it with all the arguments you provided.
-3.  **Automatic Cleanup:** Crucially, immediately after the executable finishes running (or if it crashes), `noexec` automatically deletes the temporary copy from the PATH directory. This ensures no permanent changes are made to your system and keeps your environment clean.
-
-This approach allows you to run any executable as if it were installed system-wide, without permanently modifying your PATH or system directories. The cleanup happens automatically, even if the program exits unexpectedly, ensuring a secure and clean execution environment.
-
-### Key Features & Benefits
-
-- **Bypasses Android 10+ Restrictions:** Run executables from any storage location.
-- **Zero Dependency:** No complex setup required. Install once and use immediately.
-- **Secure Execution:** Temporarily copies executables and cleans up automatically.
-- **Lightning Fast:** Minimal overhead with automatic cleanup.
-- **Preserves Original File Permissions:** Your original executable remains untouched.
-- **Works with Any Executable Format:** Supports various binary formats.
+---
 
 ## Requirements
 
-- Bash shell
-- Write permissions to system PATH directory
-- Standard Unix utilities (cp, chmod, rm)
+* Termux
+* Bash
+* Standard Unix utilities (`cp`, `chmod`, `rm`)
 
-## Contact
+---
 
-Created by Joseph Joseph (ByteJoseph)
-Email: bytejoseph23@gmail.com
+## Frequently Asked Questions
+
+### Does `noexec` modify my original file?
+
+No.
+
+Your executable remains exactly where it is. A temporary copy is created solely for execution and is deleted immediately afterwards.
+
+### Does it leave files behind?
+
+No.
+
+Temporary files are removed automatically once execution finishes.
+
+### Can I pass arguments to my program?
+
+Yes.
+
+Everything after the executable path is forwarded exactly as provided.
+
+Example:
+
+```bash
+noexec ./server --port 8080 --debug
+```
+
+---
+
+## Contributing
+
+Bug reports, feature requests, and pull requests are always welcome.
+
+If you discover an issue or have an idea for improvement, feel free to open an issue or submit a pull request.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
+
+---
